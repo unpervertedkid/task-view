@@ -120,7 +120,7 @@ export function Dashboard() {
                                 </Link>
                                 <Link
                                     href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground"
+                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                                 >
                                     <Bell className="h-5 w-5" />
                                     Notifications
@@ -130,7 +130,7 @@ export function Dashboard() {
                                 </Link>
                                 <Link
                                     href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-muted-foreground hover:text-foreground"
+                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
                                 >
                                     <SquareCheckBig className="h-5 w-5" />
                                     Tasks
