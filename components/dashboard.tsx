@@ -7,6 +7,7 @@ import {
     Menu,
     NotebookPen,
     Package2,
+    PanelRightClose,
     PanelRightOpen,
     Search,
     Settings,
@@ -15,6 +16,7 @@ import {
 import Link from "next/link"
 import { useState } from "react"
 
+import IconLink from "@/components/icon-link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -28,94 +30,93 @@ import {
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 
 export function Dashboard() {
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
     return (
         <div className={`grid min-h-screen w-full transition-all duration-200 ease-in-out ${isSidePanelOpen ? 'md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]' : 'md:grid-cols-[60px,1fr] lg:grid-cols-[60px,1fr] gap-4'}`}>
-    <div className={`hidden border-r bg-muted/40 md:block transition-all duration-200 ease-in-out ${isSidePanelOpen ? '' : 'w-20'}`}>
-        <div className="flex h-full max-h-screen flex-col gap-2">
-            <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                <Link href="/" className="flex items-center gap-2 font-semibold">
-                            <Package2 className="h-6 w-6" onClick={() => {
-                                if (!isSidePanelOpen) setIsSidePanelOpen(true);
-                            }} />
-                            {
-                                isSidePanelOpen ? (
-                                    <span className="">Acme Inc</span>
-                                ) : null
-                            }
-                        </Link>
-                        {
-                            isSidePanelOpen ? (
-                                <PanelRightOpen onClick={() => setIsSidePanelOpen(false)} className="ml-auto h-5 w-5" />
-                            ) : null
-                        }
+            <div className={`hidden border-r bg-muted/40 md:block transition-all duration-200 ease-in-out ${isSidePanelOpen ? '' : 'w-20'}`}>
+                <div className="flex h-full max-h-screen flex-col gap-4">
+                    <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+                        <IconLink
+                            href="#"
+                            icon={<Package2 className="h-6 w-6" />}
+                            tooltipContent="Acme Inc"
+                            isSidePanelOpen={isSidePanelOpen}
+                        />
                     </div>
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                            <Link
+                            <IconLink
                                 href="#"
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                            >
-                                <Home className="h-5 w-5" />
-                                {isSidePanelOpen && (
-                                    <span>Dashboard</span>
-                                )
-                                }
-                            </Link>
-                            <Link
+                                icon={<Home className="h-5 w-5" />}
+                                tooltipContent="Dashboard"
+                                isSidePanelOpen={isSidePanelOpen}
+                            />
+                            <IconLink
                                 href="#"
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                            >
-                                <Bell className="h-5 w-5" />
-                                {isSidePanelOpen && (
-                                    <>
-                                        Notifications
-                                        <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                            6
-                                        </Badge>
-                                    </>
-                                )}
-                            </Link>
-                            <Link
+                                icon={<Bell className="h-5 w-5" />}
+                                tooltipContent="Notifications"
+                                isSidePanelOpen={isSidePanelOpen}
+                            />
+                            <IconLink
                                 href="#"
-                                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-                            >
-                                <SquareCheckBig className="h-5 w-5" />
-                                {isSidePanelOpen && (
-                                    <span>Tasks</span>
-                                )}
-                            </Link>
-                            <Link
+                                icon={<SquareCheckBig className="h-5 w-5" />}
+                                tooltipContent="Tasks"
+                                isSidePanelOpen={isSidePanelOpen}
+                                isSelected={true}
+                            />
+                            <IconLink
                                 href="#"
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                            >
-                                <NotebookPen className="h-5 w-5" />
-                                {isSidePanelOpen && (
-                                    <span>Notes</span>
-                                )}
-                            </Link>
-                            <Link
+                                icon={<NotebookPen className="h-5 w-5" />}
+                                tooltipContent="Notes"
+                                isSidePanelOpen={isSidePanelOpen}
+                            />
+                            <IconLink
                                 href="#"
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                            >
-                                <Calendar className="h-5 w-5" />
-                                {isSidePanelOpen && (
-                                    <span>Calendar</span>
-                                )}
-                            </Link>
+                                icon={<Calendar className="h-5 w-5" />}
+                                tooltipContent="Calendar"
+                                isSidePanelOpen={isSidePanelOpen}
+                            />
                         </nav>
                     </div>
                     <div className="mt-auto p-4">
                         <Separator className="mb-2" />
-                        <Button variant="outline" className="w-full">
-                            <div className="flex items-center justify-center">
-                                {isSidePanelOpen && <span className="mr-2">Settings</span>}
-                                <Settings className="h-5 w-5" />
-                            </div>  
-                        </Button>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button variant="outline" className="w-full mb-2" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}>
+                                        {isSidePanelOpen ? (
+                                            <div className="flex items-center justify-between">
+                                                <span className="mr-2">Collapse</span>
+                                                <PanelRightOpen className="h-5 w-5" />
+                                            </div>
+                                        ) :
+                                            <div>
+                                                <PanelRightClose className="h-5 w-5" />
+                                            </div>
+                                        }
+                                    </Button>
+                                </TooltipTrigger>
+                                {!isSidePanelOpen && <TooltipContent side="right">Expand</TooltipContent>}
+                            </Tooltip>
+                        </TooltipProvider>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button variant="outline" className="w-full">
+                                        <div className="flex items-center justify-center">
+                                            {isSidePanelOpen && <span className="mr-2">Settings</span>}
+                                            <Settings className="h-5 w-5" />
+                                        </div>
+                                    </Button>
+                                </TooltipTrigger>
+                                {!isSidePanelOpen && <TooltipContent side="right">Settings</TooltipContent>}
+                            </Tooltip>
+                        </TooltipProvider>
+
                     </div>
                 </div>
             </div>
