@@ -30,9 +30,16 @@ import {
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { toast } from "sonner"
+import { Tabs } from "@/app/page"
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 
-export function Dashboard() {
+interface DashboardProps {
+    children: React.ReactNode;
+    setActiveTabOnClick: (tab: Tabs) => void;
+}
+
+export function Dashboard({ children, setActiveTabOnClick }: DashboardProps) {
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
     return (
@@ -41,7 +48,6 @@ export function Dashboard() {
                 <div className="flex h-full max-h-screen flex-col gap-4">
                     <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                         <IconLink
-                            href="#"
                             icon={<Package2 className="h-6 w-6" />}
                             tooltipContent="Acme Inc"
                             isSidePanelOpen={isSidePanelOpen}
@@ -50,35 +56,55 @@ export function Dashboard() {
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                             <IconLink
-                                href="#"
                                 icon={<Home className="h-5 w-5" />}
                                 tooltipContent="Dashboard"
                                 isSidePanelOpen={isSidePanelOpen}
+                                onClick={() => {
+                                    toast("Active tab changed to Dashboard");
+                                    setActiveTabOnClick("Dashboard");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<Bell className="h-5 w-5" />}
                                 tooltipContent="Notifications"
                                 isSidePanelOpen={isSidePanelOpen}
+                                onClick={() => {
+                                    toast("Active tab changed to Notifications")
+                                    setActiveTabOnClick("Notifications");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<SquareCheckBig className="h-5 w-5" />}
                                 tooltipContent="Tasks"
                                 isSidePanelOpen={isSidePanelOpen}
                                 isSelected={true}
+                                onClick={() => {
+                                    toast("Active tab changed to Tasks");
+                                    setActiveTabOnClick("Tasks");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<NotebookPen className="h-5 w-5" />}
                                 tooltipContent="Notes"
                                 isSidePanelOpen={isSidePanelOpen}
+                                onClick={() => {
+                                    toast("Active tab changed to Notes");
+                                    setActiveTabOnClick("Notes");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<Calendar className="h-5 w-5" />}
                                 tooltipContent="Calendar"
                                 isSidePanelOpen={isSidePanelOpen}
+                                onClick={() => {
+                                    toast("Active tab changed to Calendar");
+                                    setActiveTabOnClick("Calendar");
+                                }
+                                }
                             />
                         </nav>
                     </div>
@@ -220,22 +246,8 @@ export function Dashboard() {
                     </DropdownMenu>
                 </header>
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-                    <div className="flex items-center">
-                        <h1 className="text-lg font-semibold md:text-2xl">Tasks</h1>
-                    </div>
-                    <div
-                        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm" x-chunk="dashboard-02-chunk-1"
-                    >
-                        <div className="flex flex-col items-center gap-1 text-center">
-                            <h3 className="text-2xl font-bold tracking-tight">
-                                You have no tasks
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                                You can start by adding a task.
-                            </p>
-                            <Button className="mt-4">Add Task</Button>
-                        </div>
-                    </div>
+                    
+                    {children}
                 </main>
             </div>
         </div>

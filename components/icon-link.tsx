@@ -1,28 +1,27 @@
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
-import Link from "next/link"
 
 interface IconLinkProps {
-    href: string;
     icon: React.ReactNode;
     tooltipContent: string;
     isSidePanelOpen: boolean;
     isSelected?: boolean;
+    onClick?: () => void;
 }
 
-const IconLink: React.FC<IconLinkProps> = ({ href, icon, tooltipContent, isSidePanelOpen, isSelected = false }) => {
+const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, isSidePanelOpen, isSelected = false, onClick }) => {
     return (
         <TooltipProvider>
         <Tooltip>
             <TooltipTrigger asChild>
-                <Link
-                    href={href}
-                        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${isSelected ? "text-primary bg-muted" : "text-muted-foreground"} transition-all hover:text-primary`}
+                <div 
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 ${isSelected ? "text-primary bg-muted" : "text-muted-foreground"} transition-all hover:text-primary`}
+                onClick={onClick}
                 >
                     {icon}
                     {isSidePanelOpen && (
                         <span>{tooltipContent}</span>
                     )}
-                </Link>
+                </div>
             </TooltipTrigger>
             {!isSidePanelOpen && <TooltipContent side="right">{tooltipContent}</TooltipContent>}
         </Tooltip>
