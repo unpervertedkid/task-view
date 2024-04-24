@@ -5,11 +5,11 @@ interface IconLinkProps {
     href: string;
     icon: React.ReactNode;
     tooltipContent: string;
-    isSidePanelOpen: boolean;
+    expanded: boolean;
     isSelected?: boolean;
 }
 
-const IconLink: React.FC<IconLinkProps> = ({ href, icon, tooltipContent, isSidePanelOpen, isSelected = false }) => {
+const IconLink: React.FC<IconLinkProps> = ({ href, icon, tooltipContent, expanded, isSelected = false }) => {
     return (
         <TooltipProvider>
         <Tooltip>
@@ -19,12 +19,12 @@ const IconLink: React.FC<IconLinkProps> = ({ href, icon, tooltipContent, isSideP
                         className={`flex items-center gap-3 rounded-lg px-3 py-2 ${isSelected ? "text-primary bg-muted" : "text-muted-foreground"} transition-all hover:text-primary`}
                 >
                     {icon}
-                    {isSidePanelOpen && (
+                    {expanded && (
                         <span>{tooltipContent}</span>
                     )}
                 </Link>
             </TooltipTrigger>
-            {!isSidePanelOpen && <TooltipContent side="right">{tooltipContent}</TooltipContent>}
+            {!expanded && <TooltipContent side="right">{tooltipContent}</TooltipContent>}
         </Tooltip>
         </TooltipProvider>
     )
