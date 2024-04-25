@@ -9,15 +9,13 @@ import {
     Package2,
     PanelRightClose,
     PanelRightOpen,
-    Search,
     Settings,
     SquareCheckBig
 } from "lucide-react"
-import Link from "next/link"
 import { useState } from "react"
 
-import IconLink from "@/components/icon-link"
-import { Badge } from "@/components/ui/badge"
+import { Tabs } from "@/app/page"
+import { IconLink, MobileIconLink } from "@/components/icon-link"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -27,12 +25,18 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { toast } from "sonner"
 
-export function Dashboard() {
+interface ShellProps {
+    children: React.ReactNode;
+    activeTab: Tabs;
+    setActiveTabOnClick: (tab: Tabs) => void;
+}
+
+export function Shell({ children, activeTab, setActiveTabOnClick }: ShellProps) {
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
     return (
@@ -62,35 +66,59 @@ export function Dashboard() {
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                             <IconLink
-                                href="#"
                                 icon={<Home className="h-5 w-5" />}
                                 tooltipContent="Dashboard"
                                 expanded={isSidePanelOpen}
+                                isSelected={activeTab === "Dashboard"}
+                                onClick={() => {
+                                    toast("Active tab changed to Dashboard");
+                                    setActiveTabOnClick("Dashboard");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<Bell className="h-5 w-5" />}
                                 tooltipContent="Notifications"
                                 expanded={isSidePanelOpen}
+                                isSelected={activeTab === "Notifications"}
+                                onClick={() => {
+                                    toast("Active tab changed to Notifications");
+                                    setActiveTabOnClick("Notifications");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<SquareCheckBig className="h-5 w-5" />}
                                 tooltipContent="Tasks"
                                 expanded={isSidePanelOpen}
-                                isSelected={true}
+                                isSelected={activeTab === "Tasks"}
+                                onClick={() => {
+                                    toast("Active tab changed to Tasks");
+                                    setActiveTabOnClick("Tasks");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<NotebookPen className="h-5 w-5" />}
                                 tooltipContent="Notes"
                                 expanded={isSidePanelOpen}
+                                isSelected={activeTab === "Notes"}
+                                onClick={() => {
+                                    toast("Active tab changed to Notes");
+                                    setActiveTabOnClick("Notes");
+                                }
+                                }
                             />
                             <IconLink
-                                href="#"
                                 icon={<Calendar className="h-5 w-5" />}
                                 tooltipContent="Calendar"
                                 expanded={isSidePanelOpen}
+                                isSelected={activeTab === "Calendar"}
+                                onClick={() => {
+                                    toast("Active tab changed to Calendar");
+                                    setActiveTabOnClick("Calendar");
+                                }
+                                }
                             />
                         </nav>
                     </div>
@@ -128,51 +156,56 @@ export function Dashboard() {
                         </SheetTrigger>
                         <SheetContent side="left" className="flex flex-col">
                             <nav className="grid gap-2 text-lg font-medium">
-                                <Link
-                                    href="#"
-                                    className="flex items-center gap-2 text-lg font-semibold"
-                                >
-                                    <Package2 className="h-6 w-6" />
-                                    <span className="sr-only">Acme Inc</span>
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                                >
-                                    <Home className="h-5 w-5" />
-                                    Dashboard
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                                >
-                                    <Bell className="h-5 w-5" />
-                                    Notifications
-                                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                        6
-                                    </Badge>
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-                                >
-                                    <SquareCheckBig className="h-5 w-5" />
-                                    Tasks
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                                >
-                                    <NotebookPen className="h-5 w-5" />
-                                    Notes
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                                >
-                                    <Calendar className="h-5 w-5" />
-                                    Calendar
-                                </Link>
+                                <MobileIconLink
+                                name="Acme Inc"
+                                icon={<Package2 className="h-6 w-6" />}
+                                isSelected={false}
+                                />
+
+                                <MobileIconLink
+                                name="Dashboard"
+                                icon={<Home className="h-5 w-5" />}
+                                isSelected={activeTab === "Dashboard"}
+                                onClick={() => {
+                                    setActiveTabOnClick("Dashboard");
+                                }}
+                                />
+                                
+                                <MobileIconLink
+                                name="Notifications"
+                                icon={<Bell className="h-5 w-5" />}
+                                isSelected={activeTab === "Notifications"}
+                                onClick={() => {
+                                    setActiveTabOnClick("Notifications");
+                                }}
+                                />
+                                
+                                <MobileIconLink
+                                name="Tasks"
+                                icon={<SquareCheckBig className="h-5 w-5" />}
+                                isSelected={activeTab === "Tasks"}
+                                onClick={() => {
+                                    setActiveTabOnClick("Tasks");
+                                }}
+                                />
+                                
+                                <MobileIconLink
+                                name="Notes"
+                                icon={<NotebookPen className="h-5 w-5" />}
+                                isSelected={activeTab === "Notes"}
+                                onClick={() => {
+                                    setActiveTabOnClick("Notes");
+                                }}
+                                />
+
+                                <MobileIconLink
+                                name="Calendar"
+                                icon={<Calendar className="h-5 w-5" />}
+                                isSelected={activeTab === "Calendar"}
+                                onClick={() => {
+                                    setActiveTabOnClick("Calendar");
+                                }}
+                                />
                             </nav>
                             <div className="mt-auto p-4">
                                 <Separator className="mb-2" />
@@ -185,7 +218,6 @@ export function Dashboard() {
                     </Sheet>
                     <div className="w-full flex-1">
                         <IconLink
-                            href="#"
                             icon={<Package2 className="h-6 w-6" />}
                             tooltipContent="Acme Inc"
                             expanded={true}
@@ -209,22 +241,8 @@ export function Dashboard() {
                     </DropdownMenu>
                 </header>
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-                    <div className="flex items-center">
-                        <h1 className="text-lg font-semibold md:text-2xl">Tasks</h1>
-                    </div>
-                    <div
-                        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm" x-chunk="dashboard-02-chunk-1"
-                    >
-                        <div className="flex flex-col items-center gap-1 text-center">
-                            <h3 className="text-2xl font-bold tracking-tight">
-                                You have no tasks
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                                You can start by adding a task.
-                            </p>
-                            <Button className="mt-4">Add Task</Button>
-                        </div>
-                    </div>
+
+                    {children}
                 </main>
             </div>
         </div>
