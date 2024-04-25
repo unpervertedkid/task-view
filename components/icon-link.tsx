@@ -3,12 +3,12 @@ import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/comp
 interface IconLinkProps {
     icon: React.ReactNode;
     tooltipContent: string;
-    isSidePanelOpen: boolean;
+    expanded: boolean;
     isSelected?: boolean;
     onClick?: () => void;
 }
 
-const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, isSidePanelOpen, isSelected = false, onClick }) => {
+const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, expanded, isSelected = false, onClick }) => {
     return (
         <TooltipProvider>
         <Tooltip>
@@ -18,12 +18,12 @@ const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, isSidePanelOp
                 onClick={onClick}
                 >
                     {icon}
-                    {isSidePanelOpen && (
+                    {expanded && (
                         <span>{tooltipContent}</span>
                     )}
                 </div>
             </TooltipTrigger>
-            {!isSidePanelOpen && <TooltipContent side="right">{tooltipContent}</TooltipContent>}
+            {!expanded && <TooltipContent side="right">{tooltipContent}</TooltipContent>}
         </Tooltip>
         </TooltipProvider>
     )

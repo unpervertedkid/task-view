@@ -47,18 +47,31 @@ export function Dashboard({ children, setActiveTabOnClick }: DashboardProps) {
             <div className={`hidden border-r bg-muted/40 md:block transition-all duration-200 ease-in-out ${isSidePanelOpen ? '' : 'w-20'}`}>
                 <div className="flex h-full max-h-screen flex-col gap-4">
                     <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                        <IconLink
-                            icon={<Package2 className="h-6 w-6" />}
-                            tooltipContent="Acme Inc"
-                            isSidePanelOpen={isSidePanelOpen}
-                        />
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="w-full mb-2" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}>
+                                        {isSidePanelOpen ? (
+                                            <div className="flex items-center justify-end">
+                                                <PanelRightOpen className="h-5 w-5" />
+                                            </div>
+                                        ) :
+                                            <div>
+                                                <PanelRightClose className="h-5 w-5" />
+                                            </div>
+                                        }
+                                    </div>
+                                </TooltipTrigger>
+                                {<TooltipContent side="right">{isSidePanelOpen ? "Collapse" : "Expand"}</TooltipContent>}
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                             <IconLink
                                 icon={<Home className="h-5 w-5" />}
                                 tooltipContent="Dashboard"
-                                isSidePanelOpen={isSidePanelOpen}
+                                expanded={isSidePanelOpen}
                                 onClick={() => {
                                     toast("Active tab changed to Dashboard");
                                     setActiveTabOnClick("Dashboard");
@@ -68,17 +81,12 @@ export function Dashboard({ children, setActiveTabOnClick }: DashboardProps) {
                             <IconLink
                                 icon={<Bell className="h-5 w-5" />}
                                 tooltipContent="Notifications"
-                                isSidePanelOpen={isSidePanelOpen}
-                                onClick={() => {
-                                    toast("Active tab changed to Notifications")
-                                    setActiveTabOnClick("Notifications");
-                                }
-                                }
+                                expanded={isSidePanelOpen}
                             />
                             <IconLink
                                 icon={<SquareCheckBig className="h-5 w-5" />}
                                 tooltipContent="Tasks"
-                                isSidePanelOpen={isSidePanelOpen}
+                                expanded={isSidePanelOpen}
                                 isSelected={true}
                                 onClick={() => {
                                     toast("Active tab changed to Tasks");
@@ -89,17 +97,12 @@ export function Dashboard({ children, setActiveTabOnClick }: DashboardProps) {
                             <IconLink
                                 icon={<NotebookPen className="h-5 w-5" />}
                                 tooltipContent="Notes"
-                                isSidePanelOpen={isSidePanelOpen}
-                                onClick={() => {
-                                    toast("Active tab changed to Notes");
-                                    setActiveTabOnClick("Notes");
-                                }
-                                }
+                                expanded={isSidePanelOpen}
                             />
                             <IconLink
                                 icon={<Calendar className="h-5 w-5" />}
                                 tooltipContent="Calendar"
-                                isSidePanelOpen={isSidePanelOpen}
+                                expanded={isSidePanelOpen}
                                 onClick={() => {
                                     toast("Active tab changed to Calendar");
                                     setActiveTabOnClick("Calendar");
@@ -110,25 +113,6 @@ export function Dashboard({ children, setActiveTabOnClick }: DashboardProps) {
                     </div>
                     <div className="mt-auto p-4">
                         <Separator className="mb-2" />
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="outline" className="w-full mb-2" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}>
-                                        {isSidePanelOpen ? (
-                                            <div className="flex items-center justify-between">
-                                                <span className="mr-2">Collapse</span>
-                                                <PanelRightOpen className="h-5 w-5" />
-                                            </div>
-                                        ) :
-                                            <div>
-                                                <PanelRightClose className="h-5 w-5" />
-                                            </div>
-                                        }
-                                    </Button>
-                                </TooltipTrigger>
-                                {!isSidePanelOpen && <TooltipContent side="right">Expand</TooltipContent>}
-                            </Tooltip>
-                        </TooltipProvider>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -217,16 +201,12 @@ export function Dashboard({ children, setActiveTabOnClick }: DashboardProps) {
                         </SheetContent>
                     </Sheet>
                     <div className="w-full flex-1">
-                        <form>
-                            <div className="relative">
-                                <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-muted-foreground" />
-                                <Input
-                                    type="search"
-                                    placeholder="Search tasks..."
-                                    className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-                                />
-                            </div>
-                        </form>
+                        <IconLink
+                            href="#"
+                            icon={<Package2 className="h-6 w-6" />}
+                            tooltipContent="Acme Inc"
+                            expanded={true}
+                        />
                     </div>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
