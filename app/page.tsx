@@ -1,19 +1,33 @@
 "use client"
-import { Dashboard } from "@/components/dashboard";
-import Tasks from "@/components/tasks";
+import { Shell } from "@/components/shell";
+import Tasks from "@/components/tabs/tasks";
+import  Dashboard from "@/components/tabs/dashboard";
+import Notifications from "@/components/tabs/notifications";
+import Notes from "@/components/tabs/notes";
+import Calendar from "@/components/tabs/calendar";
 import { useState } from "react";
 
 export type Tabs = "Dashboard" | "Notifications" | "Tasks" | "Notes" | "Calendar";
 
 export default function Home() {
   type Tabs = "Dashboard" | "Notifications" | "Tasks" | "Notes" | "Calendar";
-  const [activeTab, setActiveTab] = useState<Tabs>("Tasks");
+  const [activeTab, setActiveTab] = useState<Tabs>("Dashboard");
+
+  const tabs: Record<Tabs, JSX.Element> = {
+    Dashboard: <Dashboard />,
+    Notifications: <Notifications />,
+    Tasks: <Tasks />,
+    Notes: <Notes />,
+    Calendar: <Calendar />,
+  };
+
+  let activeTabContent = tabs[activeTab];
   
-  // TODO: Add the rest of the tabs and change the activeTabContent based on the activeTab
-  let activeTabContent = <Tasks />;
   return (
-    <main>
-      <Dashboard children={activeTabContent} setActiveTabOnClick={setActiveTab} />
-    </main>
-  );
+  <main>
+    <Shell activeTab={activeTab} setActiveTabOnClick={setActiveTab}>
+      {activeTabContent}
+    </Shell>
+  </main>
+);
 }

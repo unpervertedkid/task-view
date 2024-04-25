@@ -8,9 +8,9 @@ interface IconLinkProps {
     onClick?: () => void;
 }
 
-const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, expanded, isSelected = false, onClick }) => {
+const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, expanded, isSelected=false, onClick }) => {
     return (
-        <TooltipProvider>
+        <TooltipProvider>   
         <Tooltip>
             <TooltipTrigger asChild>
                 <div 
@@ -29,4 +29,24 @@ const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, expanded, isS
     )
 }
 
-export default IconLink;
+interface MobileIconLinkProps {
+    name: string;
+    icon: React.ReactNode;
+    isSelected?: boolean;
+    onClick?: () => void;
+}
+
+const MobileIconLink: React.FC<MobileIconLinkProps> = ({ name, icon, isSelected=false, onClick}) => {
+    return (
+            <div
+                onClick={onClick}
+                className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 ${isSelected ? "text-muted-foreground" : "text-foreground"} hover:text-foreground`}
+            >
+                {icon}
+                {name}
+            </div>
+         
+    )
+}
+
+export { IconLink, MobileIconLink }
