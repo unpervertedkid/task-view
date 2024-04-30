@@ -14,7 +14,6 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 
-import { Tabs } from "@/app/page"
 import { IconLink, MobileIconLink } from "@/components/icon-link"
 import { Button } from "@/components/ui/button"
 import {
@@ -28,15 +27,8 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { toast } from "sonner"
 
-interface ShellProps {
-    children: React.ReactNode;
-    activeTab: Tabs;
-    setActiveTabOnClick: (tab: Tabs) => void;
-}
-
-export function Shell({ children, activeTab, setActiveTabOnClick }: ShellProps) {
+export function Shell({ children }: { children: React.ReactNode }) {
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
     return (
@@ -67,58 +59,33 @@ export function Shell({ children, activeTab, setActiveTabOnClick }: ShellProps) 
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                             <IconLink
                                 icon={<Home className="h-5 w-5" />}
-                                tooltipContent="Dashboard"
+                                name="Dashboard"
+                                href="/dashboard"
                                 expanded={isSidePanelOpen}
-                                isSelected={activeTab === "Dashboard"}
-                                onClick={() => {
-                                    toast("Active tab changed to Dashboard");
-                                    setActiveTabOnClick("Dashboard");
-                                }
-                                }
                             />
                             <IconLink
                                 icon={<Bell className="h-5 w-5" />}
-                                tooltipContent="Notifications"
+                                name="Notifications"
+                                href="/dashboard/notifications"
                                 expanded={isSidePanelOpen}
-                                isSelected={activeTab === "Notifications"}
-                                onClick={() => {
-                                    toast("Active tab changed to Notifications");
-                                    setActiveTabOnClick("Notifications");
-                                }
-                                }
                             />
                             <IconLink
                                 icon={<SquareCheckBig className="h-5 w-5" />}
-                                tooltipContent="Tasks"
+                                name="Tasks"
+                                href="/dashboard/tasks"
                                 expanded={isSidePanelOpen}
-                                isSelected={activeTab === "Tasks"}
-                                onClick={() => {
-                                    toast("Active tab changed to Tasks");
-                                    setActiveTabOnClick("Tasks");
-                                }
-                                }
                             />
                             <IconLink
                                 icon={<NotebookPen className="h-5 w-5" />}
-                                tooltipContent="Notes"
+                                name="Notes"
+                                href="/dashboard/notes"
                                 expanded={isSidePanelOpen}
-                                isSelected={activeTab === "Notes"}
-                                onClick={() => {
-                                    toast("Active tab changed to Notes");
-                                    setActiveTabOnClick("Notes");
-                                }
-                                }
                             />
                             <IconLink
                                 icon={<Calendar className="h-5 w-5" />}
-                                tooltipContent="Calendar"
+                                name="Calendar"
+                                href="/dashboard/calendar"
                                 expanded={isSidePanelOpen}
-                                isSelected={activeTab === "Calendar"}
-                                onClick={() => {
-                                    toast("Active tab changed to Calendar");
-                                    setActiveTabOnClick("Calendar");
-                                }
-                                }
                             />
                         </nav>
                     </div>
@@ -159,52 +126,37 @@ export function Shell({ children, activeTab, setActiveTabOnClick }: ShellProps) 
                                 <MobileIconLink
                                 name="Acme Inc"
                                 icon={<Package2 className="h-6 w-6" />}
-                                isSelected={false}
+                                href="/dashboard"
                                 />
 
                                 <MobileIconLink
                                 name="Dashboard"
                                 icon={<Home className="h-5 w-5" />}
-                                isSelected={activeTab === "Dashboard"}
-                                onClick={() => {
-                                    setActiveTabOnClick("Dashboard");
-                                }}
+                                href="/dashboard"
                                 />
                                 
                                 <MobileIconLink
                                 name="Notifications"
                                 icon={<Bell className="h-5 w-5" />}
-                                isSelected={activeTab === "Notifications"}
-                                onClick={() => {
-                                    setActiveTabOnClick("Notifications");
-                                }}
+                                href="/dashboard/notifications"
                                 />
                                 
                                 <MobileIconLink
                                 name="Tasks"
                                 icon={<SquareCheckBig className="h-5 w-5" />}
-                                isSelected={activeTab === "Tasks"}
-                                onClick={() => {
-                                    setActiveTabOnClick("Tasks");
-                                }}
+                                href="/dashboard/tasks"
                                 />
                                 
                                 <MobileIconLink
                                 name="Notes"
                                 icon={<NotebookPen className="h-5 w-5" />}
-                                isSelected={activeTab === "Notes"}
-                                onClick={() => {
-                                    setActiveTabOnClick("Notes");
-                                }}
+                                href="/dashboard/notes"
                                 />
 
                                 <MobileIconLink
                                 name="Calendar"
                                 icon={<Calendar className="h-5 w-5" />}
-                                isSelected={activeTab === "Calendar"}
-                                onClick={() => {
-                                    setActiveTabOnClick("Calendar");
-                                }}
+                                href="/dashboard/calendar"
                                 />
                             </nav>
                             <div className="mt-auto p-4">
@@ -219,7 +171,8 @@ export function Shell({ children, activeTab, setActiveTabOnClick }: ShellProps) 
                     <div className="w-full flex-1">
                         <IconLink
                             icon={<Package2 className="h-6 w-6" />}
-                            tooltipContent="Acme Inc"
+                            name="Acme Inc"
+                            href="/dashboard"
                             expanded={true}
                         />
                     </div>
