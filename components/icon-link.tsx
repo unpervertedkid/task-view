@@ -1,50 +1,76 @@
+'use client';
+import clsx from "clsx";
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface IconLinkProps {
     icon: React.ReactNode;
-    tooltipContent: string;
+    name: string;
+    href: string;
     expanded: boolean;
-    isSelected?: boolean;
-    onClick?: () => void;
 }
 
-const IconLink: React.FC<IconLinkProps> = ({ icon, tooltipContent, expanded, isSelected=false, onClick }) => {
+const IconLink: React.FC<IconLinkProps> = ({ icon, name, href, expanded }) => {
+    const pathname = usePathname();
+
+    const linkClasses = clsx(
+        'flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary',
+        {
+            'text-primary bg-muted': pathname === href && name != "Acme Inc",
+            'text-muted-foreground': pathname !== href || name === "Acme Inc"
+        }
+    );
+
     return (
+        <Link
+        key={name}
+        href={href}
+        >
         <TooltipProvider>   
         <Tooltip>
             <TooltipTrigger asChild>
-                <div 
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 ${isSelected ? "text-primary bg-muted" : "text-muted-foreground"} transition-all hover:text-primary`}
-                onClick={onClick}
+                <div className={linkClasses}
                 >
                     {icon}
                     {expanded && (
-                        <span>{tooltipContent}</span>
+                        <span>{name}</span>
                     )}
                 </div>
             </TooltipTrigger>
-            {!expanded && <TooltipContent side="right">{tooltipContent}</TooltipContent>}
+            {!expanded && <TooltipContent side="right">{name}</TooltipContent>}
         </Tooltip>
         </TooltipProvider>
+        </Link>
     )
 }
 
 interface MobileIconLinkProps {
     name: string;
     icon: React.ReactNode;
-    isSelected?: boolean;
-    onClick?: () => void;
+    href: string;
 }
 
-const MobileIconLink: React.FC<MobileIconLinkProps> = ({ name, icon, isSelected=false, onClick}) => {
+const MobileIconLink: React.FC<MobileIconLinkProps> = ({ name, icon, href }) => {
+    const pathname = usePathname();
+
+    const linkClasses = clsx(
+        'mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground',
+        {
+            'text-foreground': pathname === href || name === "Acme Inc",
+            'text-muted-foreground': pathname !== href && name !== "Acme Inc"
+        }
+    );
+
     return (
-            <div
-                onClick={onClick}
-                className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 ${isSelected ? "text-muted-foreground" : "text-foreground"} hover:text-foreground`}
+            <Link
+            key={name}
+            href={href}
+            className={linkClasses}
             >
                 {icon}
                 {name}
-            </div>
+            </Link>
          
     )
 }
